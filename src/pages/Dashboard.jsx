@@ -18,7 +18,7 @@ const Dashboard = () => {
           <StatsCard
             icon={<FaDonate className="w-8 h-8" />}
             title="Total Donations"
-            value="$5,420"
+            value="R5,420"
           />
            <StatsCard
             icon={<FaDonate className="w-8 h-8" />}

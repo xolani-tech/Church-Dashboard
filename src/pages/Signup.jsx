@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 // import { auth, googleProvider } from "../firebase";
 // import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
@@ -65,12 +66,13 @@ export default function Signup() {
             Sign up to access your dashboard
           </p>
 
-          <button
-            onClick={handleGoogleSignup}
-            className="w-full bg-red-500 text-white py-2 rounded-lg mb-4 hover:bg-red-600 transition"
-          >
-            Sign up with Google
-          </button>
+        <button
+             onClick={handleGoogleSignup}
+          className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition"
+        >
+          <FcGoogle size={22} />
+          <span className="font-medium">Continue with Google</span>
+        </button>
 
           <p className="text-center text-gray-400 mb-4">Or continue with email</p>
 

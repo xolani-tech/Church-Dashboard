@@ -1,36 +1,22 @@
 import React from 'react';
-import logo from '../../src/assets/logo.png'
+import logo from '../../src/assets/logo.png';
+import { Link, NavLink } from 'react-router-dom';
 import { 
   FaHome, FaUser, FaUserPlus, FaUsers, FaBuilding, FaCalendarAlt, FaDonate, FaPray, FaCog 
 } from 'react-icons/fa';
 
+// Map your routes to labels
 const navItems = [
-  { icon: FaHome, label: 'Home', active: true },
-  { icon: FaUser, label: 'My Profile' },
-  { icon: FaUserPlus, label: 'Add New Admin' },
-  { icon: FaUsers, label: 'Member Management' },
-  { icon: FaBuilding, label: 'Departments' },
-  { icon: FaCalendarAlt, label: 'Events Calendar' },
-  { icon: FaDonate, label: 'Giving' },
-  { icon: FaPray, label: 'Prayer Request' },
-  { icon: FaCog, label: 'Manage Website' },
+  { icon: FaHome, label: 'Home', path: '/dashboard' },
+  { icon: FaUser, label: 'My Profile', path: '/profile' },
+  { icon: FaUserPlus, label: 'Add New Admin', path: '/add-admin' },
+  { icon: FaUsers, label: 'Member Management', path: '/members' },
+  { icon: FaBuilding, label: 'Departments', path: '/departments' },
+  { icon: FaCalendarAlt, label: 'Events Calendar', path: '/events' },
+  { icon: FaDonate, label: 'Giving', path: '/giving' },
+  { icon: FaPray, label: 'Prayer Request', path: '/prayer-request' },
+  { icon: FaCog, label: 'Manage Website', path: '/manage-website' },
 ];
-
-const NavLink = ({ icon: Icon, label, active }) => (
-  <li>
-    <a
-      href="#"
-      className={`flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ${
-        active
-          ? 'bg-white bg-opacity-20 text-white'
-          : 'text-white hover:bg-white hover:bg-opacity-10'
-      }`}
-    >
-      <Icon className="w-5 h-5 mr-3" />
-      {label}
-    </a>
-  </li>
-);
 
 const Sidebar = () => {
   return (
@@ -44,8 +30,22 @@ const Sidebar = () => {
 
       <nav className="flex-1">
         <ul className="space-y-2">
-          {navItems.map((item) => (
-            <NavLink key={item.label} {...item} />
+          {navItems.map(({ icon: Icon, label, path }) => (
+            <li key={label}>
+              <NavLink
+                to={path}
+                className={({ isActive }) =>
+                  `flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ${
+                    isActive
+                      ? 'bg-white bg-opacity-20 text-white'
+                      : 'text-white hover:bg-white hover:bg-opacity-10'
+                  }`
+                }
+              >
+                <Icon className="w-5 h-5 mr-3" />
+                {label}
+              </NavLink>
+            </li>
           ))}
         </ul>
       </nav>
