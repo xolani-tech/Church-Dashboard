@@ -14,7 +14,7 @@ const navItems = [
   { icon: FaBuilding, label: 'Departments', path: '/departments' },
   { icon: FaCalendarAlt, label: 'Events Calendar', path: '/events' },
   { icon: FaDonate, label: 'Giving', path: '/giving' },
-  { icon: FaPray, label: 'Prayer Request', path: '/prayer-request' },
+  { icon: FaPray, label: 'Prayer', path: '/prayer' },
   { icon: FaCog, label: 'Manage Website', path: '/manage-website' },
 ];
 
