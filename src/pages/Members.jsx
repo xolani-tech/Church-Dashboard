@@ -174,7 +174,7 @@ const MemberManagement = () => {
                 Actions
                 <button
                   onClick={() => { setIsModalOpen(true); setEditingMember(null); }}
-                  className="ml-2 px-3 py- bg-brand-gold text-white rounded-lg text-sm"
+                  className="ml-2 px-3 py-2 bg-brand-gold text-white rounded-lg text-sm"
                 >
                   Add Member
                 </button>
