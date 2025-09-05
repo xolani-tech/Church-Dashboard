@@ -104,7 +104,6 @@ const PrayerRequests = () => {
     isPrivate: false,
     memberId: "",
   });
-  // const [editing, setEditing] = useState(null);
 
   // ---- Derived ----
   const filtered = useMemo(() => {
@@ -180,67 +179,8 @@ const PrayerRequests = () => {
   };
 
   const openAddModal = () => {
-    // setEditing(null);
-    // setForm({
-    //   requestId: "",
-    //   name: "",
-    //   email: "",
-    //   phone: "",
-    //   region: "",
-    //   message: "",
-    //   dateSubmitted: new Date().toISOString(),
-    //   status: "Pending",
-    //   isPrivate: false,
-    //   memberId: "",
-    // });
-    // setIsModalOpen(true);
   };
 
-  // const openEditModal = (r) => {
-  //   setEditing(r);
-  //   setForm({ ...r });
-  //   setIsModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  //   setEditing(null);
-  // };
-
-  // const onFormChange = (e) => {
-  //   const { name, value, type, checked } = e.target;
-  //   setForm((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
-  // };
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   const payload = {
-  //     ...form,
-  //     requestId: editing ? form.requestId : form.requestId || generateId(),
-  //     name: form.name?.trim() || "Anonymous",
-  //     email: form.email?.trim() || "",
-  //     phone: form.phone?.trim() || "",
-  //     region: form.region || "Other",
-  //     message: form.message?.trim() || "",
-  //     dateSubmitted: form.dateSubmitted || new Date().toISOString(),
-  //     status: form.status || "Pending",
-  //     isPrivate: !!form.isPrivate,
-  //     memberId: form.memberId?.trim() || "",
-  //   };
-
-  //   if (editing) {
-  //     setRequests((prev) =>
-  //       prev.map((r) => (r.requestId === editing.requestId ? payload : r))
-  //     );
-  //   } else {
-  //     if (requests.some((r) => r.requestId === payload.requestId)) {
-  //       alert("Request ID already exists. Please change it.");
-  //       return;
-  //     }
-  //     setRequests((prev) => [...prev, payload]);
-  //   }
-  //   closeModal();
-  // };
 
   const onDeleteOne = (id) => {
     if (!window.confirm("Delete this request?")) return;
@@ -285,13 +225,6 @@ const PrayerRequests = () => {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Prayer Requests</h1>
-        {/* <button
-          onClick={openAddModal}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-brand-gold text-white rounded-lg"
-        >
-          <Plus size={18} />
-          Add Request
-        </button> */}
       </div>
 
       {/* Search & Filters */}
@@ -571,115 +504,6 @@ const PrayerRequests = () => {
           </button>
         ))}
       </div>
-
-      {/* Add/Edit Modal */}
-      {/* {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl shadow-lg w-full max-w-xl p-6">
-            <h2 className="text-xl font-bold mb-4">
-              {editing ? "Edit Prayer Request" : "Add Prayer Request"}
-            </h2>
-
-            <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input
-                  type="text"
-                  name="requestId"
-                  placeholder="Request ID (auto if blank)"
-                  value={form.requestId}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                  disabled={!!editing}
-                />
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name (or leave blank for Anonymous)"
-                  value={form.name}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={form.email}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone"
-                  value={form.phone}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                />
-                <select
-                  name="region"
-                  value={form.region}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                >
-                  <option value="">Region</option>
-                  {regions.map((r) => (
-                    <option key={r} value={r}>
-                      {r}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="status"
-                  value={form.status}
-                  onChange={onFormChange}
-                  className="p-2 border rounded-lg"
-                >
-                  {statuses.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-                <label className="inline-flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    name="isPrivate"
-                    checked={form.isPrivate}
-                    onChange={onFormChange}
-                  />
-                  Private (admin-only)
-                </label>
-              </div>
-
-              <textarea
-                name="message"
-                placeholder="Prayer request message"
-                value={form.message}
-                onChange={onFormChange}
-                className="p-2 border rounded-lg"
-                rows={4}
-                required
-              />
-
-              <div className="flex justify-end gap-2 mt-2">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="px-4 py-2 bg-gray-200 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-brand-gold text-white rounded-lg"
-                >
-                  {editing ? "Save Changes" : "Add Request"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
