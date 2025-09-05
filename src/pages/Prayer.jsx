@@ -494,17 +494,6 @@ const PrayerRequests = () => {
                       >
                         {r.isPrivate ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
-
-                      {/* Edit
-                      <button
-                        onClick={() => openEditModal(r)}
-                        title="Edit"
-                        className="px-2 py-1 rounded-lg bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
-                      >
-                        ✏️
-                      </button> */}
-
-                      {/* Delete */}
                       <button
                         onClick={() => onDeleteOne(r.requestId)}
                         title="Delete"
