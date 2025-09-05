@@ -104,7 +104,7 @@ const PrayerRequests = () => {
     isPrivate: false,
     memberId: "",
   });
-  const [editing, setEditing] = useState(null);
+  // const [editing, setEditing] = useState(null);
 
   // ---- Derived ----
   const filtered = useMemo(() => {
@@ -180,67 +180,67 @@ const PrayerRequests = () => {
   };
 
   const openAddModal = () => {
-    setEditing(null);
-    setForm({
-      requestId: "",
-      name: "",
-      email: "",
-      phone: "",
-      region: "",
-      message: "",
-      dateSubmitted: new Date().toISOString(),
-      status: "Pending",
-      isPrivate: false,
-      memberId: "",
-    });
-    setIsModalOpen(true);
+    // setEditing(null);
+    // setForm({
+    //   requestId: "",
+    //   name: "",
+    //   email: "",
+    //   phone: "",
+    //   region: "",
+    //   message: "",
+    //   dateSubmitted: new Date().toISOString(),
+    //   status: "Pending",
+    //   isPrivate: false,
+    //   memberId: "",
+    // });
+    // setIsModalOpen(true);
   };
 
-  const openEditModal = (r) => {
-    setEditing(r);
-    setForm({ ...r });
-    setIsModalOpen(true);
-  };
+  // const openEditModal = (r) => {
+  //   setEditing(r);
+  //   setForm({ ...r });
+  //   setIsModalOpen(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditing(null);
-  };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setEditing(null);
+  // };
 
-  const onFormChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
-  };
+  // const onFormChange = (e) => {
+  //   const { name, value, type, checked } = e.target;
+  //   setForm((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
+  // };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const payload = {
-      ...form,
-      requestId: editing ? form.requestId : form.requestId || generateId(),
-      name: form.name?.trim() || "Anonymous",
-      email: form.email?.trim() || "",
-      phone: form.phone?.trim() || "",
-      region: form.region || "Other",
-      message: form.message?.trim() || "",
-      dateSubmitted: form.dateSubmitted || new Date().toISOString(),
-      status: form.status || "Pending",
-      isPrivate: !!form.isPrivate,
-      memberId: form.memberId?.trim() || "",
-    };
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   const payload = {
+  //     ...form,
+  //     requestId: editing ? form.requestId : form.requestId || generateId(),
+  //     name: form.name?.trim() || "Anonymous",
+  //     email: form.email?.trim() || "",
+  //     phone: form.phone?.trim() || "",
+  //     region: form.region || "Other",
+  //     message: form.message?.trim() || "",
+  //     dateSubmitted: form.dateSubmitted || new Date().toISOString(),
+  //     status: form.status || "Pending",
+  //     isPrivate: !!form.isPrivate,
+  //     memberId: form.memberId?.trim() || "",
+  //   };
 
-    if (editing) {
-      setRequests((prev) =>
-        prev.map((r) => (r.requestId === editing.requestId ? payload : r))
-      );
-    } else {
-      if (requests.some((r) => r.requestId === payload.requestId)) {
-        alert("Request ID already exists. Please change it.");
-        return;
-      }
-      setRequests((prev) => [...prev, payload]);
-    }
-    closeModal();
-  };
+  //   if (editing) {
+  //     setRequests((prev) =>
+  //       prev.map((r) => (r.requestId === editing.requestId ? payload : r))
+  //     );
+  //   } else {
+  //     if (requests.some((r) => r.requestId === payload.requestId)) {
+  //       alert("Request ID already exists. Please change it.");
+  //       return;
+  //     }
+  //     setRequests((prev) => [...prev, payload]);
+  //   }
+  //   closeModal();
+  // };
 
   const onDeleteOne = (id) => {
     if (!window.confirm("Delete this request?")) return;
@@ -285,13 +285,13 @@ const PrayerRequests = () => {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Prayer Requests</h1>
-        <button
+        {/* <button
           onClick={openAddModal}
           className="inline-flex items-center gap-2 px-4 py-2 bg-brand-gold text-white rounded-lg"
         >
           <Plus size={18} />
           Add Request
-        </button>
+        </button> */}
       </div>
 
       {/* Search & Filters */}
@@ -357,15 +357,6 @@ const PrayerRequests = () => {
           value={filters.from}
           onChange={(e) => {
             setFilters((p) => ({ ...p, from: e.target.value }));
-            setCurrentPage(1);
-          }}
-          className="p-2 border rounded-lg"
-        />
-        <input
-          type="date"
-          value={filters.to}
-          onChange={(e) => {
-            setFilters((p) => ({ ...p, to: e.target.value }));
             setCurrentPage(1);
           }}
           className="p-2 border rounded-lg"
@@ -504,14 +495,14 @@ const PrayerRequests = () => {
                         {r.isPrivate ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
 
-                      {/* Edit */}
+                      {/* Edit
                       <button
                         onClick={() => openEditModal(r)}
                         title="Edit"
                         className="px-2 py-1 rounded-lg bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
                       >
                         ✏️
-                      </button>
+                      </button> */}
 
                       {/* Delete */}
                       <button
@@ -593,7 +584,7 @@ const PrayerRequests = () => {
       </div>
 
       {/* Add/Edit Modal */}
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-2xl shadow-lg w-full max-w-xl p-6">
             <h2 className="text-xl font-bold mb-4">
@@ -699,7 +690,7 @@ const PrayerRequests = () => {
             </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
