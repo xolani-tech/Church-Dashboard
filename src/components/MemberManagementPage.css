@@ -1,0 +1,84 @@
+.member-management-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.total-members,
+.active-members,
+.visitors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.total-members span,
+.active-members span,
+.visitors span {
+  font-weight: bold;
+}
+
+.search-members input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.add-member button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.member-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.member-list th,
+.member-list td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.member-initials {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  margin-right: 10px;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-visitor {
+  color: #888;
+  font-style: italic;
+}
+
+.edit-button,
+.delete-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-right: 10px;
+}

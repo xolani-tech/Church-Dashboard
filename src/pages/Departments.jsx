@@ -1,183 +1,141 @@
+// DepartmentsPage.jsx
 import React, { useState } from "react";
-import { CSVLink } from "react-csv";
-import { Plus, Trash2, Printer, FileDown, Eye, Edit } from "lucide-react";
-
-// Sample departments data
+import DepartmentCard from "../components/DepartmentCard";
+import DepartmentModal from "../components/AddDepartment";
+import DeleteModal from "../components/DeleteDepartment";
+import Header from "../components/Header";
 const initialDepartments = [
   {
     id: 1,
-    name: "Worship Team",
-    region: "Cape Town",
-    head: "John Smith",
-    workers: ["John Smith", "Alice Brown", "Peter White"],
-    createdAt: "2023-04-01",
-    status: "Active",
-    description: "Handles worship and praise sessions.",
+    name: "Children's Ministry",
+    description:
+      "Teaching children about God's love through fun and interactive lessons",
+    leaderName: "Jennifer Davis",
+    leaderEmail: "jennifer@gracecommunity.org",
+    schedule: "Every Sunday at 9 AM",
+    image: "",
+    color: "#f6a21a", // orange
+    active: true,
+    members: 0,
   },
   {
     id: 2,
-    name: "Hospitality",
-    region: "Johannesburg",
-    head: "Sarah Johnson",
-    workers: ["Sarah Johnson", "Emily Davis"],
-    createdAt: "2023-05-12",
-    status: "Active",
-    description: "Manages welcoming visitors and members.",
+    name: "Outreach Team",
+    description: "Serving our local community and spreading the gospel",
+    leaderName: "David Wilson",
+    leaderEmail: "david@gracecommunity.org",
+    schedule: "First Saturday of each month",
+    image: "",
+    color: "#2fc45a", // green
+    active: true,
+    members: 0,
+  },
+  {
+    id: 3,
+    name: "Worship Team",
+    description:
+      "Leading our congregation in praise and worship through music and song",
+    leaderName: "Sarah Johnson",
+    leaderEmail: "sarah@gracecommunity.org",
+    schedule: "Every Thursday at 7 PM",
+    image: "",
+    color: "#9b59ff", // purple
+    active: true,
+    members: 0,
+  },
+  {
+    id: 4,
+    name: "Youth Ministry",
+    description: "Engaging and equipping the next generation to follow Christ",
+    leaderName: "Mike Thompson",
+    leaderEmail: "mike@gracecommunity.org",
+    schedule: "Every Friday at 6 PM",
+    image: "",
+    color: "#2a7df6", // blue
+    active: true,
+    members: 0,
   },
 ];
 
-const Departments = () => {
+export default function DepartmentsPage() {
   const [departments, setDepartments] = useState(initialDepartments);
-  const [expandedRow, setExpandedRow] = useState(null);
-  const [selected, setSelected] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [editing, setEditing] = useState(null); // department object or null
+  const [openDelete, setOpenDelete] = useState(false);
+  const [toDelete, setToDelete] = useState(null);
 
-  // Toggle row expand
-  const toggleExpand = (id) => {
-    setExpandedRow(expandedRow === id ? null : id);
+  const handleCreate = (dept) => {
+    const newDept = { ...dept, id: Date.now(), members: 0 };
+    setDepartments((d) => [newDept, ...d]);
   };
 
-  // Checkbox handler
-  const toggleSelect = (id) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
-    );
+  const handleUpdate = (updated) => {
+    // Ensure id exists and replace by id
+    setDepartments((d) => d.map((x) => (x.id === updated.id ? updated : x)));
   };
 
-  // Bulk delete
-  const deleteSelected = () => {
-    setDepartments((prev) => prev.filter((d) => !selected.includes(d.id)));
-    setSelected([]);
+  const handleDelete = () => {
+    if (!toDelete) return;
+    setDepartments((d) => d.filter((x) => x.id !== toDelete.id));
+    setOpenDelete(false);
+    setToDelete(null);
   };
 
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Departments</h1>
+ return (
+  <div>
+    <Header /> {/* same header as dashboard */}
 
-      {/* Table */}
-      <div className="bg-white rounded-2xl shadow p-4">
-        {/* Table head with Add button */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Departments List</h2>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 flex items-center gap-2">
-            <Plus size={18} /> Add Department
-          </button>
-        </div>
+    <div className="p-6 departments-page">
+      <div className="departments-header">
+        <h1>Departments</h1>
+        <button
+          className="btn-add"
+          onClick={() => {
+            setEditing(null);
+            setOpenModal(true);
+          }}
+        >
+          + Add Department
+        </button>
+      </div>
 
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="p-3">
-                <input
-                  type="checkbox"
-                  onChange={(e) =>
-                    setSelected(
-                      e.target.checked ? departments.map((d) => d.id) : []
-                    )
-                  }
-                  checked={
-                    selected.length > 0 &&
-                    selected.length === departments.length
-                  }
-                />
-              </th>
-              <th className="p-3">Department Name</th>
-              <th className="p-3">Region</th>
-              <th className="p-3">Head</th>
-              <th className="p-3">Workers</th>
-              <th className="p-3">Status</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {departments.map((dept) => (
-              <React.Fragment key={dept.id}>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="p-3">
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(dept.id)}
-                      onChange={() => toggleSelect(dept.id)}
-                    />
-                  </td>
-                  <td className="p-3 font-medium">{dept.name}</td>
-                  <td className="p-3">{dept.region}</td>
-                  <td className="p-3">{dept.head}</td>
-                  <td className="p-3">{dept.workers.length}</td>
-                  <td className="p-3">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        dept.status === "Active"
-                          ? "bg-green-100 text-green-600"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
-                      {dept.status}
-                    </span>
-                  </td>
-                  <td className="p-3 flex gap-2">
-                    <button
-                      onClick={() => toggleExpand(dept.id)}
-                      className="text-blue-600 hover:underline flex items-center gap-1"
-                    >
-                      <Eye size={16} /> View
-                    </button>
-                    <button className="text-yellow-600 hover:underline flex items-center gap-1">
-                      <Edit size={16} /> Edit
-                    </button>
-                  </td>
-                </tr>
-
-                {/* Expanded row */}
-                {expandedRow === dept.id && (
-                  <tr className="bg-gray-50">
-                    <td colSpan="7" className="p-4">
-                      <p className="mb-2 text-gray-700">
-                        <strong>Description:</strong> {dept.description}
-                      </p>
-                      <p className="mb-2 text-gray-700">
-                        <strong>Created At:</strong> {dept.createdAt}
-                      </p>
-                      <p className="mb-2 text-gray-700">
-                        <strong>Workers:</strong>{" "}
-                        {dept.workers.length > 0
-                          ? dept.workers.join(", ")
-                          : "No workers assigned"}
-                      </p>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Footer actions */}
-        <div className="flex justify-between items-center mt-4">
-          {selected.length > 0 && (
-            <button
-              onClick={deleteSelected}
-              className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 flex items-center gap-2"
-            >
-              <Trash2 size={18} /> Delete Selected
-            </button>
-          )}
-
-          <div className="flex gap-2">
-            <CSVLink
-              data={departments}
-              filename="departments.csv"
-              className="bg-gray-200 px-4 py-2 rounded-xl hover:bg-gray-300 flex items-center gap-2"
-            >
-              <FileDown size={18} /> Export CSV
-            </CSVLink>
-            <button className="bg-gray-200 px-4 py-2 rounded-xl hover:bg-gray-300 flex items-center gap-2">
-              <Printer size={18} /> Print
-            </button>
-          </div>
-        </div>
+      <div className="departments-grid">
+        {departments.map((dept) => (
+          <DepartmentCard
+            key={dept.id}
+            dept={dept}
+            onEdit={(d) => {
+              setEditing(d);
+              setOpenModal(true);
+            }}
+            onDelete={(d) => {
+              setToDelete(d);
+              setOpenDelete(true);
+            }}
+          />
+        ))}
       </div>
     </div>
-  );
-};
 
-export default Departments;
+    {openModal && (
+      <DepartmentModal
+        onClose={() => setOpenModal(false)}
+        onCreate={handleCreate}
+        onUpdate={handleUpdate}
+        editing={editing}
+      />
+    )}
+
+    {openDelete && (
+      <DeleteModal
+        title={toDelete?.name}
+        onClose={() => {
+          setOpenDelete(false);
+          setToDelete(null);
+        }}
+        onConfirm={handleDelete}
+      />
+    )}
+  </div>
+);
+}
